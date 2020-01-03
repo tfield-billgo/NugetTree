@@ -20,6 +20,12 @@ namespace NugetTree.Implementation
 
         public Task<ProjectDependencyInfo> ReadProjectFile(string filename)
         {
+            if (String.IsNullOrEmpty(filename))
+                throw new ArgumentNullException(nameof(filename));
+
+            if (!File.Exists(filename))
+                throw new ArgumentException($"Project does not exist: {filename}", nameof(filename));
+
             var projectName = filename.Substring(filename.LastIndexOf("\\") + 1);
 
             var fileContents = File.ReadAllText(filename);
